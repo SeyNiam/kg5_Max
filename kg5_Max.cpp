@@ -11,7 +11,7 @@
 // + красить всё
 // + почистить от мусора
 // + пояснения к чему-нибудь
-// - отчёт
+// + отчёт
 //
 
 
@@ -580,54 +580,6 @@ public:
         }
 
         return 0;
-
-        // задание видимости плоскостям
-        /*
-        // если ближайшая к центру точка надодится ближе к зрителю, чем центр
-        if (closestPt.z >= surfCen) {
-            cout << "\n\n\t THE Point " << closestPt.name << " is VISIBLE.\n\n";
-
-            // по умолчанию все поверхности видны
-            ABC.isVisible = true;
-            ADC.isVisible = true;
-            ABD.isVisible = true;
-            BCD.isVisible = true;
-
-            // если поверхность не содержит видимой точки
-            if (!strstr(ABC.name, closestPt.name))
-                ABC.isVisible = false; // то эту поверхность не видно
-            else ABC.isVisible = true; // иначе видно
-            if (!strstr(ADC.name, closestPt.name))
-                ADC.isVisible = false;
-            else ADC.isVisible = true;
-            if (!strstr(ABD.name, closestPt.name))
-                ABD.isVisible = false;
-            else ABD.isVisible = true;
-            if (!strstr(BCD.name, closestPt.name))
-                BCD.isVisible = false;
-            else BCD.isVisible = true;
-        }
-        else { // ближайшая к центру точка надожится дальше от зрителя, чем центр
-            cout << "\n\n\t THE Point " << closestPt.name << " is NOT VISIBLE AT ALL.\n\n";
-
-            // по умолчанию ни одна поверхность не видна
-            ABC.isVisible = false;
-            ADC.isVisible = false;
-            ABD.isVisible = false;
-            BCD.isVisible = false;
-
-            // если плоскость НЕ содержит НЕВИДИМУЮ точку
-            if (!strstr(ABC.name, closestPt.name))
-                ABC.isVisible = true; // то она видна
-            if (!strstr(ADC.name, closestPt.name))
-                ADC.isVisible = true;
-            if (!strstr(ABD.name, closestPt.name))
-                ABD.isVisible = true;
-            if (!strstr(BCD.name, closestPt.name))
-                BCD.isVisible = true;
-
-        }
-    */
     }
 
     // заливка одной поверхности
