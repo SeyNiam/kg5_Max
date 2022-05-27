@@ -5,9 +5,12 @@
 // + чекать пересечения
 // + чекать не пересечения
 // + иправить что-то (капец долго)
-// - насоздавать плоскостей
-// - красить частями (??)
-// - красить всё
+// + насоздавать плоскостей
+// + позадавать им видимостей
+// + красить частями (??)
+// + красить всё
+// + почистить от мусора
+// + пояснения к чему-нибудь
 // - отчёт
 //
 
@@ -18,15 +21,17 @@
 #pragma comment(lib,"graphics.lib")
 
 #define P 3.14
-#define TEXTCOL 13 // маджента
-#define MAINCOL 13 
+#define TEXTCOL 15
+#define MAINCOL 10 // светло-зелёный 
 #define WHITE 15
 #define BLACK 0
 
 #define GREEN 2
 #define CYAN 11
+#define BLUE 9
 #define RED	4
 #define YELLOW	14
+#define MAGENTA	13
 
 using namespace std;
 
@@ -73,8 +78,6 @@ public:
     char name_H[2] = "H";
     int col = MAINCOL;
 
-
-
     char name_ADCB[5] = "ADCB";
     char name_ADHE[5] = "ADHE";
     char name_EHGF[5] = "EHGF";
@@ -86,39 +89,28 @@ public:
     Surface ADHE = Surface(name_ADHE, GREEN);
     Surface EHGF = Surface(name_EHGF, CYAN);
     Surface FGCB = Surface(name_FGCB, YELLOW);
-    Surface ABFE = Surface(name_ABFE, RED);
-    Surface DCGH = Surface(name_DCGH, GREEN);
-
-    /**/
-    char name_ABC[4] = "ABC";
-    char name_ADC[4] = "ADC";
-    char name_ABD[4] = "ABD";
-    char name_BCD[4] = "BCD";
-    Surface ABC = Surface(name_ABC, RED);
-    Surface ADC = Surface(name_ADC, GREEN);
-    Surface ABD = Surface(name_ABD, CYAN);
-    Surface BCD = Surface(name_BCD, YELLOW);
-    
+    Surface ABFE = Surface(name_ABFE, BLUE);
+    Surface DCGH = Surface(name_DCGH, MAGENTA);
 
 
     // конструктор
     Prism() {
-        A.x = 50; A.y = 250; A.z = 0;
+        A.x = 50; A.y = 170; A.z = 0;
         A.name = name_A;
-        B.x = 250; B.y = 250; B.z = 0;
+        B.x = 170; B.y = 170; B.z = 0;
         B.name = name_B;
-        C.x = 250; C.y = 250; C.z = -60;
+        C.x = 170; C.y = 170; C.z = -36;
         C.name = name_C;
-        D.x = 50; D.y = 250; D.z = -60;
+        D.x = 50; D.y = 170; D.z = -36;
         D.name = name_D;
 
-        E.x = 70; E.y = 50; E.z = -20;
+        E.x = 62; E.y = 50; E.z = -12;
         E.name = name_E;
-        F.x = 230; F.y = 50; F.z = -20;
+        F.x = 158; F.y = 50; F.z = -12;
         F.name = name_F;
-        G.x = 230; G.y = 50; G.z = -40;
+        G.x = 158; G.y = 50; G.z = -24;
         G.name = name_G;
-        H.x = 70; H.y = 50; H.z = -40;
+        H.x = 62; H.y = 50; H.z = -24;
         H.name = name_H;
         drawPrism();
     }
@@ -374,8 +366,6 @@ public:
     }
 
 
-
-
     Point dot;  // точка пересечения
     // проверка на пересечение линий
     bool cross(Point a1, Point a2, Point a3, Point a4) {
@@ -478,8 +468,6 @@ public:
 
     }
 
-
-
     // видимость пересекающихся линий. возвращает 1, если есть пересечение
     int seenL(Point One, Point Two, Point Three, Point Four) {
 
@@ -507,34 +495,34 @@ public:
                     else if (zOT > zTF) {
                         cout << "line " << Three.name << Four.name << " is not seen.\n";
                         // если плоскость содержит обе точки невидимой линии
-                        if (strstr(ABC.name, Three.name) && strstr(ABC.name, Four.name))
-                            ABC.isVisible = false; // то и она сама не видна
-                        else ABC.isVisible = true; // иначе видна
-                        if (strstr(ADC.name, Three.name) && strstr(ADC.name, Four.name))
-                            ADC.isVisible = false;
-                        else ADC.isVisible = true;
-                        if (strstr(ABD.name, Three.name) && strstr(ABD.name, Four.name))
-                            ABD.isVisible = false;
-                        else ABD.isVisible = true;
-                        if (strstr(BCD.name, Three.name) && strstr(BCD.name, Four.name))
-                            BCD.isVisible = false;
-                        else BCD.isVisible = true;
+                        if (strstr(ADCB.name, Three.name) && strstr(ADCB.name, Four.name))
+                            ADCB.isVisible = false; // то и она сама не видна
+                        if (strstr(ADHE.name, Three.name) && strstr(ADHE.name, Four.name))
+                            ADHE.isVisible = false;
+                        if (strstr(EHGF.name, Three.name) && strstr(EHGF.name, Four.name))
+                            EHGF.isVisible = false;
+                        if (strstr(FGCB.name, Three.name) && strstr(FGCB.name, Four.name))
+                            FGCB.isVisible = false;
+                        if (strstr(ABFE.name, Three.name) && strstr(ABFE.name, Four.name))
+                            ABFE.isVisible = false;
+                        if (strstr(DCGH.name, Three.name) && strstr(DCGH.name, Four.name))
+                            DCGH.isVisible = false;
                     }
                     // если вторая линия ближе к наблюдателю, чем первая
                     else if (zOT < zTF) {
                         cout << "line " << One.name << Two.name << " is not seen.\n";
-                        if (strstr(ABC.name, One.name) && strstr(ABC.name, Two.name))
-                            ABC.isVisible = false;
-                        else ABC.isVisible = true;
-                        if (strstr(ADC.name, One.name) && strstr(ADC.name, Two.name))
-                            ADC.isVisible = false;
-                        else ADC.isVisible = true;
-                        if (strstr(ABD.name, One.name) && strstr(ABD.name, Two.name))
-                            ABD.isVisible = false;
-                        else ABD.isVisible = true;
-                        if (strstr(BCD.name, One.name) && strstr(BCD.name, Two.name))
-                            BCD.isVisible = false;
-                        else BCD.isVisible = true;
+                        if (strstr(ADCB.name, One.name) && strstr(ADCB.name, Two.name))
+                            ADCB.isVisible = false;
+                        if (strstr(ADHE.name, One.name) && strstr(ADHE.name, Two.name))
+                            ADHE.isVisible = false;
+                        if (strstr(EHGF.name, One.name) && strstr(EHGF.name, Two.name))
+                            EHGF.isVisible = false;
+                        if (strstr(FGCB.name, One.name) && strstr(FGCB.name, Two.name))
+                            FGCB.isVisible = false;
+                        if (strstr(ABFE.name, One.name) && strstr(ABFE.name, Two.name))
+                            ABFE.isVisible = false;
+                        if (strstr(DCGH.name, One.name) && strstr(DCGH.name, Two.name))
+                            DCGH.isVisible = false;
                     }
 
                 }
@@ -555,10 +543,39 @@ public:
 
         if (surf1 > surf2) { // если первая плоскость ближе к нам, чем вторая, то она видна
             cout << "\n\n\tSurface " << a1.name << a2.name << a3.name << a4.name << " is VISIBLE.\n\n";
+
+            // если плоскость не содержит ни одной видимой точки
+            if (strstr(ADCB.name, a1.name) == NULL && strstr(ADCB.name, a2.name) == NULL && strstr(ADCB.name, a3.name) == NULL && strstr(ADCB.name, a4.name) == NULL)
+                ADCB.isVisible = false; // то и она сама не видна
+            if (strstr(ADHE.name, a1.name) == NULL && strstr(ADHE.name, a2.name) == NULL && strstr(ADHE.name, a3.name) == NULL && strstr(ADHE.name, a4.name) == NULL)
+                ADHE.isVisible = false;
+            if (strstr(EHGF.name, a1.name) == NULL && strstr(EHGF.name, a2.name) == NULL && strstr(EHGF.name, a3.name) == NULL && strstr(EHGF.name, a4.name) == NULL)
+                EHGF.isVisible = false;
+            if (strstr(FGCB.name, a1.name) == NULL && strstr(FGCB.name, a2.name) == NULL && strstr(FGCB.name, a3.name) == NULL && strstr(FGCB.name, a4.name) == NULL)
+                FGCB.isVisible = false;
+            if (strstr(ABFE.name, a1.name) == NULL && strstr(ABFE.name, a2.name) == NULL && strstr(ABFE.name, a3.name) == NULL && strstr(ABFE.name, a4.name) == NULL)
+                ABFE.isVisible = false;
+            if (strstr(DCGH.name, a1.name) == NULL && strstr(DCGH.name, a2.name) == NULL && strstr(DCGH.name, a3.name) == NULL && strstr(DCGH.name, a4.name) == NULL)
+                DCGH.isVisible = false;
+
             return 1;
         }
         else {
             cout << "\n\n\tSurface " << b1.name << b2.name << b3.name << b4.name << " is VISIBLE.\n\n";
+
+            if (strstr(ADCB.name, b1.name) == NULL && strstr(ADCB.name, b2.name) == NULL && strstr(ADCB.name, b3.name) == NULL && strstr(ADCB.name, b4.name) == NULL)
+                ADCB.isVisible = false;
+            if (strstr(ADHE.name, b1.name) == NULL && strstr(ADHE.name, b2.name) == NULL && strstr(ADHE.name, b3.name) == NULL && strstr(ADHE.name, b4.name) == NULL)
+                ADHE.isVisible = false;
+            if (strstr(EHGF.name, b1.name) == NULL && strstr(EHGF.name, b2.name) == NULL && strstr(EHGF.name, b3.name) == NULL && strstr(EHGF.name, b4.name) == NULL)
+                EHGF.isVisible = false;
+            if (strstr(FGCB.name, b1.name) == NULL && strstr(FGCB.name, b2.name) == NULL && strstr(FGCB.name, b3.name) == NULL && strstr(FGCB.name, b4.name) == NULL)
+                FGCB.isVisible = false;
+            if (strstr(ABFE.name, b1.name) == NULL && strstr(ABFE.name, b2.name) == NULL && strstr(ABFE.name, b3.name) == NULL && strstr(ABFE.name, b4.name) == NULL)
+                ABFE.isVisible = false;
+            if (strstr(DCGH.name, b1.name) == NULL && strstr(DCGH.name, b2.name) == NULL && strstr(DCGH.name, b3.name) == NULL && strstr(DCGH.name, b4.name) == NULL)
+                DCGH.isVisible = false;
+
             return 1;
         }
 
@@ -659,6 +676,16 @@ public:
 
     // закраска всех видимых поверхностей
     void colouring() {
+
+        // изначально все плоскости видны
+        ADCB.isVisible = true;
+        ADHE.isVisible = true;
+        EHGF.isVisible = true;
+        FGCB.isVisible = true;
+        ABFE.isVisible = true;
+        DCGH.isVisible = true;
+
+
         // для AB
         // несмежные рёбра и верх
         int ab = seenL(A, B, D, H) + seenL(A, B, C, G) +
@@ -686,29 +713,39 @@ public:
                     seenS(A, B, F, E, D, C, G, H);
         }
 
-        /*
-        if (ABC.isVisible) {
-            cout << "\n\tABC is visible\n";
-            //fill(A, B, C, ABC.colour);
+        // заливка граней в соответствии с их видимостью
+        if (ADHE.isVisible) {
+            cout << "\n\tADHE is visible\n";
+            fill(A, D, H, ADHE.colour);
+            fill(A, E, H, ADHE.colour);
         }
-        if (ADC.isVisible) {
-            cout << "\n\tADC is visible\n";
-            //fill(A, D, C, ADC.colour);
+        if (EHGF.isVisible) {
+            cout << "\n\tEHGF is visible\n";
+            fill(E, H, G, EHGF.colour);
+            fill(E, F, G, EHGF.colour);
         }
-        if (ABD.isVisible) {
-            cout << "\n\tABD is visible\n";
-            //fill(A, B, D, ABD.colour);
+        if (FGCB.isVisible) {
+            cout << "\n\tFGCB is visible\n";
+            fill(F, G, C, FGCB.colour);
+            fill(F, B, C, FGCB.colour);
         }
-        if (BCD.isVisible) {
-            cout << "\n\tBCD is visible\n";
-            //fill(B, C, D, BCD.colour);
-        }*/
+        if (ABFE.isVisible) {
+            cout << "\n\tABFE is visible\n";
+            fill(A, B, F, ABFE.colour);
+            fill(A, E, F, ABFE.colour);
+        }
+        if (DCGH.isVisible) {
+            cout << "\n\tDCGH is visible\n";
+            fill(D, C, G, DCGH.colour);
+            fill(D, H, G, DCGH.colour);
+        }
+        if (ADCB.isVisible) {
+            cout << "\n\tADCB is visible\n";
+            fill(A, D, C, ADCB.colour);
+            fill(A, B, C, ADCB.colour);
+        }
 
     }
-
-
-
-
 
 };
 
@@ -716,7 +753,7 @@ public:
 
 int main() {
     initwindow(1400, 700); // создаём консольное окно 1400 на 700
-    Prism Tri; // создание фигуры
+    Prism Pri; // создание фигуры
 
     // управление
     int i = 1; // условие выхода
@@ -727,44 +764,44 @@ int main() {
         case 'ц':
         case 'Ц':
             cout << 'w' << endl;
-            Tri.moveY(-10); // вверх
+            Pri.moveY(-10); // вверх
             break;
         case 'a':
         case 'A':
         case 'ф':
         case 'Ф':
             cout << 'a' << endl;
-            Tri.moveX(-10); // влево
+            Pri.moveX(-10); // влево
             break;
         case 's':
         case 'S':
         case 'ы':
         case 'Ы':
             cout << 's' << endl;
-            Tri.moveY(10); // вниз
+            Pri.moveY(10); // вниз
             break;
         case 'd':
         case 'D':
         case 'в':
         case 'В':
             cout << 'd' << endl;
-            Tri.moveX(10); // вправо
+            Pri.moveX(10); // вправо
             break;
         case 'x':
         case 'X':
         case 'ч':
         case 'Ч':
             cout << 'x' << endl;
-            Tri.moveZ(-10); // назад
-            Tri.scale(0.9);
+            Pri.moveZ(-10); // назад
+            Pri.scale(0.9);
             break;
         case 'z':
         case 'Z':
         case 'я':
         case 'Я':
             cout << 'z' << endl;
-            Tri.moveZ(10); // вперёд
-            Tri.scale(1.1);
+            Pri.moveZ(10); // вперёд
+            Pri.scale(1.1);
             break;
 
             // вокруг z
@@ -773,14 +810,14 @@ int main() {
         case 'й':
         case 'Й':
             cout << 'q' << endl;
-            Tri.rotateZ(1); // против часовой
+            Pri.rotateZ(1); // против часовой
             break;
         case 'e':
         case 'E':
         case 'у':
         case 'У':
             cout << 'e' << endl;
-            Tri.rotateZ(-1); // по часовой
+            Pri.rotateZ(-1); // по часовой
             break;
             // вокруг y
         case 'r':
@@ -788,14 +825,14 @@ int main() {
         case 'к':
         case 'К':
             cout << 'r' << endl;
-            Tri.rotateY(1); // против часовой
+            Pri.rotateY(1); // против часовой
             break;
         case 't':
         case 'T':
         case 'е':
         case 'Е':
             cout << 't' << endl;
-            Tri.rotateY(-1); // по часовой
+            Pri.rotateY(-1); // по часовой
             break;
             // вокруг x
         case 'f':
@@ -803,25 +840,25 @@ int main() {
         case 'а':
         case 'А':
             cout << 'f' << endl;
-            Tri.rotateX(1); // против часовой
+            Pri.rotateX(1); // против часовой
             break;
         case 'g':
         case 'G':
         case 'п':
         case 'П':
             cout << 'g' << endl;
-            Tri.rotateX(-1); // по часовой
+            Pri.rotateX(-1); // по часовой
             break;
 
         case '=':
         case '+':
             cout << '+' << endl;
-            Tri.scale(1.5); // увеличение
+            Pri.scale(1.5); // увеличение
             break;
         case '-':
         case '_':
             cout << '-' << endl;
-            Tri.scale(0.5); // уменьшение
+            Pri.scale(0.5); // уменьшение
             break;
         default:
             cout << "default -> exit" << endl;
@@ -829,7 +866,7 @@ int main() {
             break;
         }
         cleardevice(); // отичстка экрана
-        Tri.drawPrism(); // перерисовка фигуры
+        Pri.drawPrism(); // перерисовка фигуры
     }
 
     getch(); // чтение одного символа с клавиатуры
